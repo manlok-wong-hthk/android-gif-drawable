@@ -4,23 +4,24 @@ jdk:
 env:
   ANDROID_HOME: /opt/android-sdk
   ANDROID_SDK_ROOT: /opt/android-sdk
+  PATH: /opt/android-sdk/cmdline-tools/latest/bin:/opt/android-sdk/platform-tools:$PATH
 
 before_install:
-  # 安裝 SDK Manager
   - sudo apt-get update && sudo apt-get install -y wget unzip
   - wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
   - mkdir -p $ANDROID_HOME/cmdline-tools
   - unzip cmdline-tools.zip -d $ANDROID_HOME/cmdline-tools
   - mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/latest
-  - export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
 
   # 接受 License 並安裝 SDK/NDK
   - yes | sdkmanager --licenses
   - sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0" "ndk;28.0.12674087"
 
-  - echo "sdk.dir=$ANDROID_HOME" > local.properties
+  # 把 local.properties 寫到專案根目錄
+  - echo "sdk.dir=$ANDROID_HOME" > /home/jitpack/build/local.properties
+
+  - cat /home/jitpack/build/local.properties
 
 build:
   commands:
-    # 只編譯 library，不要編譯 sample app
     - ./gradlew :android-gif-drawable:assembleRelease
