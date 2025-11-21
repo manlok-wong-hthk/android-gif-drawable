@@ -41,6 +41,14 @@ android {
     }
     namespace 'pl.droidsonroids.gif'
     testNamespace 'pl.droidsonroids.gif.test'
+    
+    if (System.getenv("JITPACK") != null) {
+        signingConfigs {
+            release {
+                // Skip signing for JitPack
+            }
+        }
+    }
 }
 
 dependencies {
