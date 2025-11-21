@@ -18,6 +18,8 @@ before_install:
   - yes | sdkmanager --licenses
   - sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0" "ndk;28.0.12674087"
 
+  - echo "sdk.dir=$ANDROID_HOME" > local.properties
+
 build:
   commands:
     # 只編譯 library，不要編譯 sample app
