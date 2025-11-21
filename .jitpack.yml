@@ -1,0 +1,13 @@
+jdk:
+  - openjdk21
+
+before_install:
+  # 更新 SDK Manager 並接受 License
+  - yes | sdkmanager --licenses
+  # 安裝必要的 SDK 和 NDK
+  - sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0" "ndk;28.0.12674087"
+
+build:
+  commands:
+    # 只編譯 library，不要編譯 sample app
+    - ./gradlew :android-gif-drawable:assembleRelease
