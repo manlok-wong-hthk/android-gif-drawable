@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.vanniktech.maven.publish'
 apply plugin: 'kotlin-android'
 
 group = 'pl.droidsonroids.gif'
@@ -31,6 +30,12 @@ android {
             }
         }
     }
+
+    buildTypes {
+        release {
+        }
+    }
+
     externalNativeBuild {
         cmake {
             path 'src/main/c/CMakeLists.txt'
@@ -41,14 +46,6 @@ android {
     }
     namespace 'pl.droidsonroids.gif'
     testNamespace 'pl.droidsonroids.gif.test'
-    
-    if (System.getenv("JITPACK") != null) {
-        signingConfigs {
-            release {
-                // Skip signing for JitPack
-            }
-        }
-    }
 }
 
 dependencies {

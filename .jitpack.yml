@@ -1,10 +1,21 @@
 jdk:
   - openjdk21
 
+env:
+  ANDROID_HOME: /opt/android-sdk
+  ANDROID_SDK_ROOT: /opt/android-sdk
+
 before_install:
-  # 更新 SDK Manager 並接受 License
+  # 安裝 SDK Manager
+  - sudo apt-get update && sudo apt-get install -y wget unzip
+  - wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
+  - mkdir -p $ANDROID_HOME/cmdline-tools
+  - unzip cmdline-tools.zip -d $ANDROID_HOME/cmdline-tools
+  - mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/latest
+  - export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
+
+  # 接受 License 並安裝 SDK/NDK
   - yes | sdkmanager --licenses
-  # 安裝必要的 SDK 和 NDK
   - sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0" "ndk;28.0.12674087"
 
 build:
